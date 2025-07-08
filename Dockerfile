@@ -1,5 +1,5 @@
 # Use a multi-stage build to reduce the image size
-FROM maven:3.8.6-jdk-17 AS builder
+FROM maven:3.8.3-openjdk-17 AS builder
 
 # Set the working directory inside the container
 WORKDIR /app
@@ -17,7 +17,7 @@ COPY src ./src
 RUN mvn clean install -DskipTests
 
 # Use a lightweight JRE 17 image for the runtime stage
-FROM openjdk:17-jre-slim
+FROM eclipse-temurin:17-jre-alpine
 
 # Set the working directory inside the container
 WORKDIR /app

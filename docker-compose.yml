@@ -1,11 +1,11 @@
 version: "3.8"
 services:
   db:
-    image: mssql/server:2019-latest
+    image: mcr.microsoft.com/mssql/server:2019-latest
     environment:
       ACCEPT_EULA: Y
-      SA_EXPRESS: "true"
-      SA_PASSWORD: "p4ssw0rd"
+      MSSQL_PID: "Express"
+      MSSQL_SA_PASSWORD: "p4ssw0rd"
     ports:
       - "1434:1433"
     volumes:

@@ -12,11 +12,14 @@ services:
       - db_data:/var/opt/mssql
 
   app:
-    image: kosdev92/company:latest
+    image: kosdev92/company
     ports:
       - "8081:8080"
     depends_on:
       - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 1433
 
 volumes:
   db_data:

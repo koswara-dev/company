@@ -9,6 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 import java.util.List;
 
@@ -19,6 +24,12 @@ public class EmployeeController {
     @Autowired
     private EmployeeService employeeService;
 
+    @Operation(summary = "Create a new employee")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Employee created successfully",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = EmployeeResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid input", content = @Content)
+    })
     @PostMapping
     public ResponseEntity<Response<EmployeeResponse>> createEmployee(@Valid @RequestBody EmployeeRequest employeeRequest) {
         EmployeeResponse employeeResponse = employeeService.createEmployee(employeeRequest);
@@ -29,6 +40,12 @@ public class EmployeeController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Get an employee by its id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Employee retrieved successfully",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = EmployeeResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Employee not found", content = @Content)
+    })
     @GetMapping("/{id}")
     public ResponseEntity<Response<EmployeeResponse>> getEmployeeById(@PathVariable Long id) {
         EmployeeResponse employeeResponse = employeeService.getEmployeeById(id);
@@ -39,6 +56,11 @@ public class EmployeeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @Operation(summary = "Get all employees")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Employees retrieved successfully",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = EmployeeResponse.class)))
+    })
     @GetMapping
     public ResponseEntity<Response<List<EmployeeResponse>>> getAllEmployees() {
         List<EmployeeResponse> employeeResponses = employeeService.getAllEmployees();
@@ -49,6 +71,13 @@ public class EmployeeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @Operation(summary = "Update an existing employee")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Employee updated successfully",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = EmployeeResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid input", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Employee not found", content = @Content)
+    })
     @PutMapping("/{id}")
     public ResponseEntity<Response<EmployeeResponse>> updateEmployee(@PathVariable Long id, @Valid @RequestBody EmployeeRequest employeeRequest) {
         EmployeeResponse employeeResponse = employeeService.updateEmployee(id, employeeRequest);
@@ -59,6 +88,11 @@ public class EmployeeController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @Operation(summary = "Delete an employee by its id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Employee deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "Employee not found", content = @Content)
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Response<Void>> deleteEmployee(@PathVariable Long id) {
         employeeService.deleteEmployee(id);

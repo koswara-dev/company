@@ -9,6 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 import java.util.List;
 
@@ -19,6 +24,12 @@ public class DivisionController {
     @Autowired
     private DivisionService divisionService;
 
+    @Operation(summary = "Create a new division")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "201", description = "Division created successfully",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = DivisionResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid input", content = @Content)
+    })
     @PostMapping
     public ResponseEntity<Response<DivisionResponse>> createDivision(@Valid @RequestBody DivisionRequest divisionRequest) {
         DivisionResponse divisionResponse = divisionService.createDivision(divisionRequest);
@@ -29,6 +40,12 @@ public class DivisionController {
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
+    @Operation(summary = "Get a division by its id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Division retrieved successfully",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = DivisionResponse.class))),
+            @ApiResponse(responseCode = "404", description = "Division not found", content = @Content)
+    })
     @GetMapping("/{id}")
     public ResponseEntity<Response<DivisionResponse>> getDivisionById(@PathVariable Long id) {
         DivisionResponse divisionResponse = divisionService.getDivisionById(id);
@@ -39,6 +56,11 @@ public class DivisionController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @Operation(summary = "Get all divisions")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Divisions retrieved successfully",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = DivisionResponse.class)))
+    })
     @GetMapping
     public ResponseEntity<Response<List<DivisionResponse>>> getAllDivisions() {
         List<DivisionResponse> divisionResponses = divisionService.getAllDivisions();
@@ -49,6 +71,13 @@ public class DivisionController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @Operation(summary = "Update an existing division")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Division updated successfully",
+                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = DivisionResponse.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid input", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Division not found", content = @Content)
+    })
     @PutMapping("/{id}")
     public ResponseEntity<Response<DivisionResponse>> updateDivision(@PathVariable Long id, @Valid @RequestBody DivisionRequest divisionRequest) {
         DivisionResponse divisionResponse = divisionService.updateDivision(id, divisionRequest);
@@ -59,6 +88,11 @@ public class DivisionController {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @Operation(summary = "Delete a division by its id")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "204", description = "Division deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "Division not found", content = @Content)
+    })
     @DeleteMapping("/{id}")
     public ResponseEntity<Response<Void>> deleteDivision(@PathVariable Long id) {
         divisionService.deleteDivision(id);

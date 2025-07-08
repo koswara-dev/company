@@ -29,6 +29,8 @@ public class DivisionServiceImpl implements DivisionService {
         divisionResponse.setId(savedDivision.getId());
         divisionResponse.setName(savedDivision.getName());
         divisionResponse.setDescription(savedDivision.getDescription());
+		divisionResponse.setCreatedAt(savedDivision.getCreatedAt());
+		divisionResponse.setUpdatedAt(savedDivision.getUpdatedAt());
 
         return divisionResponse;
     }
@@ -42,6 +44,8 @@ public class DivisionServiceImpl implements DivisionService {
         divisionResponse.setId(division.getId());
         divisionResponse.setName(division.getName());
         divisionResponse.setDescription(division.getDescription());
+		divisionResponse.setCreatedAt(division.getCreatedAt());
+		divisionResponse.setUpdatedAt(division.getUpdatedAt());
 
         return divisionResponse;
     }
@@ -56,6 +60,8 @@ public class DivisionServiceImpl implements DivisionService {
                     divisionResponse.setId(division.getId());
                     divisionResponse.setName(division.getName());
                     divisionResponse.setDescription(division.getDescription());
+					divisionResponse.setCreatedAt(division.getCreatedAt());
+					divisionResponse.setUpdatedAt(division.getUpdatedAt());
                     return divisionResponse;
                 })
                 .collect(Collectors.toList());
@@ -75,6 +81,8 @@ public class DivisionServiceImpl implements DivisionService {
         divisionResponse.setId(updatedDivision.getId());
         divisionResponse.setName(updatedDivision.getName());
         divisionResponse.setDescription(updatedDivision.getDescription());
+		divisionResponse.setCreatedAt(updatedDivision.getCreatedAt());
+		divisionResponse.setUpdatedAt(updatedDivision.getUpdatedAt());
 
         return divisionResponse;
     }

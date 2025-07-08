@@ -1,7 +1,6 @@
 package com.juaracoding.company.service;
 
 import com.juaracoding.company.dto.request.EmployeeRequest;
-import com.juaracoding.company.dto.response.DivisionResponse;
 import com.juaracoding.company.dto.response.EmployeeResponse;
 import com.juaracoding.company.exception.ResourceNotFoundException;
 import com.juaracoding.company.model.Division;
@@ -39,13 +38,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeResponse.setId(savedEmployee.getId());
         employeeResponse.setName(savedEmployee.getName());
         employeeResponse.setEmail(savedEmployee.getEmail());
-
-        DivisionResponse divisionResponse = new DivisionResponse();
-        divisionResponse.setId(division.getId());
-        divisionResponse.setName(division.getName());
-        divisionResponse.setDescription(division.getDescription());
-
-        employeeResponse.setDivision(divisionResponse);
+		employeeResponse.setCreatedAt(savedEmployee.getCreatedAt());
+		employeeResponse.setUpdatedAt(savedEmployee.getUpdatedAt());
+        employeeResponse.setDivisionName(division.getName());
 
         return employeeResponse;
     }
@@ -59,13 +54,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeResponse.setId(employee.getId());
         employeeResponse.setName(employee.getName());
         employeeResponse.setEmail(employee.getEmail());
-
-        DivisionResponse divisionResponse = new DivisionResponse();
-        divisionResponse.setId(employee.getDivision().getId());
-        divisionResponse.setName(employee.getDivision().getName());
-        divisionResponse.setDescription(employee.getDivision().getDescription());
-
-        employeeResponse.setDivision(divisionResponse);
+		employeeResponse.setCreatedAt(employee.getCreatedAt());
+		employeeResponse.setUpdatedAt(employee.getUpdatedAt());
+        employeeResponse.setDivisionName(employee.getDivision().getName());
 
         return employeeResponse;
     }
@@ -81,12 +72,9 @@ public class EmployeeServiceImpl implements EmployeeService {
                     employeeResponse.setName(employee.getName());
                     employeeResponse.setEmail(employee.getEmail());
 
-                    DivisionResponse divisionResponse = new DivisionResponse();
-                    divisionResponse.setId(employee.getDivision().getId());
-                    divisionResponse.setName(employee.getDivision().getName());
-                    divisionResponse.setDescription(employee.getDivision().getDescription());
-
-                    employeeResponse.setDivision(divisionResponse);
+                    employeeResponse.setCreatedAt(employee.getCreatedAt());
+					employeeResponse.setUpdatedAt(employee.getUpdatedAt());
+                    employeeResponse.setDivisionName(employee.getDivision().getName());
 
                     return employeeResponse;
                 })
@@ -112,12 +100,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         employeeResponse.setName(updatedEmployee.getName());
         employeeResponse.setEmail(updatedEmployee.getEmail());
 
-        DivisionResponse divisionResponse = new DivisionResponse();
-        divisionResponse.setId(division.getId());
-        divisionResponse.setName(division.getName());
-        divisionResponse.setDescription(division.getDescription());
-
-        employeeResponse.setDivision(divisionResponse);
+        employeeResponse.setCreatedAt(updatedEmployee.getCreatedAt());
+		employeeResponse.setUpdatedAt(updatedEmployee.getUpdatedAt());
+        employeeResponse.setDivisionName(division.getName());
 
         return employeeResponse;
     }

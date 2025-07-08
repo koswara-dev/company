@@ -21,7 +21,7 @@ services:
     depends_on:
       - sqlserver
     environment:
-      SPRING_DATASOURCE_URL: jdbc:sqlserver://sqlserver:1433;databaseName=companydb
+      SPRING_DATASOURCE_URL: jdbc:sqlserver://sqlserver:1433;encrypt=true;trustServerCertificate=true;databaseName=companydb
       SPRING_DATASOURCE_USERNAME: sa
       SPRING_DATASOURCE_PASSWORD: P4ssw0rd@2025
     ports:

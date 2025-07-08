@@ -2,6 +2,7 @@ package com.juaracoding.company.controller;
 
 import com.juaracoding.company.dto.request.DivisionRequest;
 import com.juaracoding.company.dto.response.DivisionResponse;
+import com.juaracoding.company.dto.response.Response;
 import com.juaracoding.company.service.DivisionService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,32 +20,51 @@ public class DivisionController {
     private DivisionService divisionService;
 
     @PostMapping
-    public ResponseEntity<DivisionResponse> createDivision(@Valid @RequestBody DivisionRequest divisionRequest) {
+    public ResponseEntity<Response<DivisionResponse>> createDivision(@Valid @RequestBody DivisionRequest divisionRequest) {
         DivisionResponse divisionResponse = divisionService.createDivision(divisionRequest);
-        return new ResponseEntity<>(divisionResponse, HttpStatus.CREATED);
+        Response<DivisionResponse> response = new Response<>();
+        response.setSuccess(true);
+        response.setMessage("Division created successfully");
+        response.setData(divisionResponse);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<DivisionResponse> getDivisionById(@PathVariable Long id) {
+    public ResponseEntity<Response<DivisionResponse>> getDivisionById(@PathVariable Long id) {
         DivisionResponse divisionResponse = divisionService.getDivisionById(id);
-        return new ResponseEntity<>(divisionResponse, HttpStatus.OK);
+        Response<DivisionResponse> response = new Response<>();
+        response.setSuccess(true);
+        response.setMessage("Division retrieved successfully");
+        response.setData(divisionResponse);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @GetMapping
-    public ResponseEntity<List<DivisionResponse>> getAllDivisions() {
+    public ResponseEntity<Response<List<DivisionResponse>>> getAllDivisions() {
         List<DivisionResponse> divisionResponses = divisionService.getAllDivisions();
-        return new ResponseEntity<>(divisionResponses, HttpStatus.OK);
+        Response<List<DivisionResponse>> response = new Response<>();
+        response.setSuccess(true);
+        response.setMessage("Divisions retrieved successfully");
+        response.setData(divisionResponses);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<DivisionResponse> updateDivision(@PathVariable Long id, @Valid @RequestBody DivisionRequest divisionRequest) {
+    public ResponseEntity<Response<DivisionResponse>> updateDivision(@PathVariable Long id, @Valid @RequestBody DivisionRequest divisionRequest) {
         DivisionResponse divisionResponse = divisionService.updateDivision(id, divisionRequest);
-        return new ResponseEntity<>(divisionResponse, HttpStatus.OK);
+        Response<DivisionResponse> response = new Response<>();
+        response.setSuccess(true);
+        response.setMessage("Division updated successfully");
+        response.setData(divisionResponse);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteDivision(@PathVariable Long id) {
+    public ResponseEntity<Response<Void>> deleteDivision(@PathVariable Long id) {
         divisionService.deleteDivision(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        Response<Void> response = new Response<>();
+        response.setSuccess(true);
+        response.setMessage("Division deleted successfully");
+        return new ResponseEntity<>(response, HttpStatus.NO_CONTENT);
     }
 }

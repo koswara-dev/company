@@ -1,4 +1,5 @@
 version: "3.8"
+
 services:
   db:
     image: mcr.microsoft.com/mssql/server:2019-latest
@@ -10,6 +11,8 @@ services:
       - "1434:1433"
     volumes:
       - db_data:/var/opt/mssql
+    networks:
+      - company-network
 
   app:
     image: kosdev92/company
@@ -20,6 +23,12 @@ services:
     environment:
       DB_HOST: db
       DB_PORT: 1433
+    networks:
+      - company-network
+
+networks:
+  company-network:
+    driver: bridge
 
 volumes:
   db_data:

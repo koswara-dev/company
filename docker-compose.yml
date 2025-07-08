@@ -1,8 +1,9 @@
-version: "3.8"
+version: '3.8'
 
 services:
-  db:
+  sqlserver:
     image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: sqlserver
     environment:
       ACCEPT_EULA: Y
       MSSQL_PID: "Express"
@@ -10,26 +11,27 @@ services:
     ports:
       - "1434:1433"
     volumes:
-      - db_data:/var/opt/mssql
-      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - sqlserver_data:/var/opt/mssql
     networks:
-      - company-network
+      - app-network
 
-  app:
-    image: kosdev92/company
+  springboot-app:
+    image: kosdev92/company:latest
+    container_name: springboot-app
+    depends_on:
+      - sqlserver
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:sqlserver://sqlserver:1433;databaseName=companydb
+      SPRING_DATASOURCE_USERNAME: sa
+      SPRING_DATASOURCE_PASSWORD: p4ssw0rd
     ports:
       - "8081:8080"
-    depends_on:
-      - db
-    environment:
-      DB_HOST: db
-      DB_PORT: 1433
     networks:
-      - company-network
-
-networks:
-  company-network:
-    driver: bridge
+      - app-network
 
 volumes:
-  db_data:
+  sqlserver_data:
+
+networks:
+  app-network:
+    driver: bridge

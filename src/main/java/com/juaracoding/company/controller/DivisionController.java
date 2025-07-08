@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/divisions")
+@RequestMapping("/api/v1/divisions")
 public class DivisionController {
 
     @Autowired

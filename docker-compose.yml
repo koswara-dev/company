@@ -7,7 +7,7 @@ services:
     environment:
       ACCEPT_EULA: Y
       MSSQL_PID: "Express"
-      MSSQL_SA_PASSWORD: "p4ssw0rd"
+      MSSQL_SA_PASSWORD: "P4ssw0rd@2025"
     ports:
       - "1434:1433"
     volumes:
@@ -23,7 +23,7 @@ services:
     environment:
       SPRING_DATASOURCE_URL: jdbc:sqlserver://sqlserver:1433;databaseName=companydb
       SPRING_DATASOURCE_USERNAME: sa
-      SPRING_DATASOURCE_PASSWORD: p4ssw0rd
+      SPRING_DATASOURCE_PASSWORD: P4ssw0rd@2025
     ports:
       - "8081:8080"
     networks:

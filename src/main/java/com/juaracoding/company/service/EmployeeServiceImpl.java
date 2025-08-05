@@ -8,6 +8,8 @@ import com.juaracoding.company.model.Employee;
 import com.juaracoding.company.repository.DivisionRepository;
 import com.juaracoding.company.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -113,5 +115,52 @@ public class EmployeeServiceImpl implements EmployeeService {
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not found with id: " + id));
 
         employeeRepository.delete(employee);
+    }
+
+    @Override
+    public Page<EmployeeResponse> getAllEmployees(Pageable pageable) {
+        Page<Employee> employeesPage = employeeRepository.findAll(pageable);
+        return employeesPage.map(employee -> {
+            EmployeeResponse employeeResponse = new EmployeeResponse();
+            employeeResponse.setId(employee.getId());
+            employeeResponse.setName(employee.getName());
+            employeeResponse.setEmail(employee.getEmail());
+            employeeResponse.setCreatedAt(employee.getCreatedAt());
+            employeeResponse.setUpdatedAt(employee.getUpdatedAt());
+            employeeResponse.setDivisionName(employee.getDivision().getName());
+            return employeeResponse;
+        });
+    }
+
+    @Override
+    public Page<EmployeeResponse> searchEmployees(String name, Pageable pageable) {
+        Page<Employee> employeesPage = employeeRepository.findByNameContainingIgnoreCase(name, pageable);
+        return employeesPage.map(employee -> {
+            EmployeeResponse employeeResponse = new EmployeeResponse();
+            employeeResponse.setId(employee.getId());
+            employeeResponse.setName(employee.getName());
+            employeeResponse.setEmail(employee.getEmail());
+            employeeResponse.setCreatedAt(employee.getCreatedAt());
+            employeeResponse.setUpdatedAt(employee.getUpdatedAt());
+            employeeResponse.setDivisionName(employee.getDivision().getName());
+            return employeeResponse;
+        });
+    }
+
+    @Override
+    public Page<EmployeeResponse> filterEmployeesByDivision(Long divisionId, Pageable pageable) {
+        Division division = divisionRepository.findById(divisionId)
+                .orElseThrow(() -> new ResourceNotFoundException("Division not found with id: " + divisionId));
+        Page<Employee> employeesPage = employeeRepository.findByDivision(division, pageable);
+        return employeesPage.map(employee -> {
+            EmployeeResponse employeeResponse = new EmployeeResponse();
+            employeeResponse.setId(employee.getId());
+            employeeResponse.setName(employee.getName());
+            employeeResponse.setEmail(employee.getEmail());
+            employeeResponse.setCreatedAt(employee.getCreatedAt());
+            employeeResponse.setUpdatedAt(employee.getUpdatedAt());
+            employeeResponse.setDivisionName(employee.getDivision().getName());
+            return employeeResponse;
+        });
     }
 }

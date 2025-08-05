@@ -14,7 +14,7 @@ COPY pom.xml .
 COPY src ./src
 
 # Build the application
-RUN mvn clean install -DskipTests
+RUN mvn clean install
 
 # Use a lightweight JRE 17 image for the runtime stage
 FROM eclipse-temurin:17-jre-alpine
